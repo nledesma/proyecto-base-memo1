@@ -1,5 +1,6 @@
 package tablero;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,4 +18,5 @@ public class Tablero {
     public String getPrimerEstado() {
         return this.estadosPosibles.get(0);
     }
+
 }

@@ -42,6 +42,8 @@ public class Tarea {
         if (this.horasTrabajadas != -1) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
         if (this.responsable != null) valores.put("responsable", this.responsable.toString());
         if (this.responsable != null) valores.put("prioridad", this.prioridad.toString());
+        if (this.responsable != null) valores.put("responsable", this.responsable.toString());
+
         valores.put("estado", this.estado);
 
         return new Evento(TipoEvento.NUEVO, valores, new Date() , this.creador);

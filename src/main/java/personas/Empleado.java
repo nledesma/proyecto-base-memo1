@@ -1,5 +1,7 @@
 package personas;
 
+import tablero.Tarea;
+
 public class Empleado {
     private String nombre;
     private String apellido;

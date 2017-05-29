@@ -11,13 +11,13 @@ import static org.junit.Assert.*;
  */
 public class CrearTareaSteps {
 
-    private FachadaBanco fachadaBanco;
+    private FachadaTablero fachadaTablero;
     private boolean resultadoExitoso;
-    private final String CBU = "38479234879453495872423";
 
     @Dado("^un determinado tablero de proyecto$")
     public void un_determinado_tablero_de_proyecto() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
+        this.fachadaTablero = new FachadaTablero();
+        this.fachadaTablero.crearTablero();
     }
 
     @Cuando("^creo una tarea$")
