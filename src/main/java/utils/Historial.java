@@ -1,11 +1,17 @@
 package utils;
 
-import utils.Evento;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by nico on 28/05/17.
- */
 public class Historial {
-    private Evento evento;
+    private List<Evento> eventos;
 
+    public Historial(Evento eventoCreacion) {
+        this.eventos = new ArrayList<Evento>();
+        this.eventos.add(eventoCreacion);
+    }
+
+    public void addEvento(Evento evento){
+        this.eventos.add(evento);
+    }
 }

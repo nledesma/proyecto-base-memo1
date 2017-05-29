@@ -1,7 +1,20 @@
 package tablero;
 
-/**
- * Created by nico on 28/05/17.
- */
+import java.util.List;
+
+
 public class Tablero {
+    List<String> estadosPosibles;
+
+    public Tablero(List<String> estadosPosibles) {
+        this.estadosPosibles = estadosPosibles;
+    }
+
+    public List<String> getEstadosPosibles() {
+        return this.estadosPosibles;
+    }
+
+    public String getPrimerEstado() {
+        return this.estadosPosibles.get(0);
+    }
 }
