@@ -1,4 +1,4 @@
-package fiuba;
+package tablero;
 
 import java.util.ArrayList;
 import java.util.List;

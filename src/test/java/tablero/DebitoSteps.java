@@ -1,4 +1,4 @@
-package fiuba;
+package tablero;
 
 import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Dado;
