@@ -28,8 +28,17 @@ public class FachadaTablero {
         this.tablero = new Tablero(estadosPosibles);
     }
 
-    public void crearTarea(){
-        Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion", null, 0, 0, null);
-        this.tareas.add(tarea);
+    public boolean crearTarea(){
+        try {
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion", null, 0, 0, null);
+            this.tareas.add(tarea);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public Tarea getPrimeraTarea(){
+        return this.tareas.get(0);
     }
 }

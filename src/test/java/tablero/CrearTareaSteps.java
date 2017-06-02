@@ -4,30 +4,30 @@ import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Dado;
 import cucumber.api.java.es.Entonces;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
-/**
- * Created by nicopaez on 5/16/17.
- */
 public class CrearTareaSteps {
 
     private FachadaTablero fachadaTablero;
-    private boolean resultadoExitoso;
+    private boolean resultadoCreacion;
 
     @Dado("^un determinado tablero de proyecto$")
     public void un_determinado_tablero_de_proyecto() throws Throwable {
-        this.fachadaTablero = new FachadaTablero();
-        this.fachadaTablero.crearTablero();
+        fachadaTablero = new FachadaTablero();
+        fachadaTablero.crearTablero();
     }
 
     @Cuando("^creo una tarea$")
     public void creo_una_tarea() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
+        resultadoCreacion = fachadaTablero.crearTarea();
     }
 
     @Entonces("^se crea una tarea con estado inicial pendiente$")
     public void se_crea_una_tarea_con_estado_inicial_pendiente() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
+        assertTrue(resultadoCreacion);
+        assertEquals("Pendiente", fachadaTablero.getPrimeraTarea().getEstado());
     }
 
 

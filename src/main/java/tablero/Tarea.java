@@ -8,6 +8,7 @@ import utils.TipoEvento;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Tarea {
@@ -20,6 +21,7 @@ public class Tarea {
     private int horasTrabajadas;
     private Empleado responsable;
     private Historial historial;
+    private boolean inicializado;
 
     public Tarea(Empleado creador, Tablero tablero, String descripcion, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
         this.creador = creador;
@@ -30,13 +32,17 @@ public class Tarea {
         this.horasEstimadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
         this.horasTrabajadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
         this.responsable = responsable;
+        this.inicializado = false;
+    }
+
+    public void init(){
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
+        this.inicializado = true;
     }
 
     private Evento crearEventoCreacion() {
-        Map<String, String> valores = Collections.emptyMap();
-
+        Map<String, String> valores = new HashMap<String, String>();
         valores.put("descripcion", this.descripcion);
         if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
         if (this.horasTrabajadas != -1) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
