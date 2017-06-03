@@ -6,10 +6,7 @@ import utils.Historial;
 import utils.Prioridad;
 import utils.TipoEvento;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Tarea {
     private Empleado creador;
@@ -24,6 +21,7 @@ public class Tarea {
     private boolean inicializado;
 
     public Tarea(Empleado creador, Tablero tablero, String descripcion, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
+        if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
         this.creador = creador;
         this.tablero = tablero;
         this.descripcion = descripcion;
@@ -33,6 +31,7 @@ public class Tarea {
         this.horasTrabajadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
         this.responsable = responsable;
         this.inicializado = false;
+        init();
     }
 
     public void init(){
@@ -56,7 +55,7 @@ public class Tarea {
     }
 
     private void agregarEventoEdicion(String nombreAtributo, String valorAtributo, Empleado autor) {
-        Map<String, String> valores = Collections.emptyMap();
+        Map<String, String> valores = new HashMap();
         valores.put(nombreAtributo, valorAtributo);
         this.historial.addEvento(new Evento(TipoEvento.EDICION, valores, new Date() , autor));
     }

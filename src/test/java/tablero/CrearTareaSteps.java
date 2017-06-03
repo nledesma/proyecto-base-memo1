@@ -30,5 +30,14 @@ public class CrearTareaSteps {
         assertEquals("Pendiente", fachadaTablero.getPrimeraTarea().getEstado());
     }
 
+    @Cuando("^creo una tarea sin descripcion$")
+    public void creo_una_tarea_sin_descripcion() throws Throwable {
+        resultadoCreacion = fachadaTablero.crearTareaSinDescripcion();
+    }
+
+    @Entonces("^se lanza una excepcion$")
+    public void se_lanza_una_excepcion() throws Throwable {
+        assertFalse(resultadoCreacion);
+    }
 
 }

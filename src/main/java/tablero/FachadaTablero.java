@@ -38,6 +38,29 @@ public class FachadaTablero {
         return true;
     }
 
+    public boolean crearTareaSinDescripcion(){
+        try {
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "",null, 0, 0, null);
+            this.tareas.add(tarea);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public void cambiarEstadoTarea(Tarea tarea){
+        //ToDo crear objeto Estados para evitar este tipo de manejos?
+        List<String> estadosPosibles = tablero.getEstadosPosibles();
+        int indexSiguienteEstado = estadosPosibles.indexOf(tarea.getEstado()) + 1;
+        if (indexSiguienteEstado >= estadosPosibles.size()) throw new RuntimeException();
+        String nuevoEstado = estadosPosibles.get(indexSiguienteEstado);
+        tarea.setEstado(nuevoEstado, empladoInteraccion);
+    }
+
+    public List<String> getEstadosPosibles(){
+        return tablero.getEstadosPosibles();
+    }
+
     public Tarea getPrimeraTarea(){
         return this.tareas.get(0);
     }
