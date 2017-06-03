@@ -18,7 +18,6 @@ public class Tarea {
     private int horasTrabajadas;
     private Empleado responsable;
     private Historial historial;
-    private boolean inicializado;
 
     public Tarea(Empleado creador, Tablero tablero, String descripcion, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
         if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
@@ -28,26 +27,20 @@ public class Tarea {
         this.prioridad = prioridad;
         this.estado = tablero.getPrimerEstado(); // Obtiene por default el estado base del tablero
         this.horasEstimadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
-        this.horasTrabajadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
+        this.horasTrabajadas = horasTrabajadas == 0 ? -1 : horasTrabajadas; // -1 En caso de no haber sido inicializada
         this.responsable = responsable;
-        this.inicializado = false;
-        init();
-    }
-
-    public void init(){
+        this.responsable = (responsable != null) ? responsable : this.getTablero().getProyecto().getLider();
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
-        this.inicializado = true;
     }
 
     private Evento crearEventoCreacion() {
         Map<String, String> valores = new HashMap<String, String>();
         valores.put("descripcion", this.descripcion);
+        valores.put("responsable", this.responsable.toString());
         if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
         if (this.horasTrabajadas != -1) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
-        if (this.responsable != null) valores.put("responsable", this.responsable.toString());
-        if (this.responsable != null) valores.put("prioridad", this.prioridad.toString());
-        if (this.responsable != null) valores.put("responsable", this.responsable.toString());
+        if (this.prioridad != null) valores.put("prioridad", this.prioridad.toString());
 
         valores.put("estado", this.estado);
 

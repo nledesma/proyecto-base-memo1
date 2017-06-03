@@ -10,13 +10,18 @@ import java.util.List;
  * Created by nico on 29/05/17.
  */
 public class FachadaTablero {
+    private Proyecto proyecto;
     private Tablero tablero;
     private Empleado empladoInteraccion;
+    private Empleado lider;
     private List<Tarea> tareas;
 
     public FachadaTablero() {
         this.empladoInteraccion = new Empleado("Juan", "Perez");
+        this.lider = new Empleado("The", "Boss");
         this.tareas = new ArrayList<Tarea>();
+        this.proyecto = new Proyecto(lider);
+        this.proyecto.addMiembro(empladoInteraccion);
     }
 
     public void crearTablero(){
@@ -25,7 +30,7 @@ public class FachadaTablero {
         estadosPosibles.add("En Progreso");
         estadosPosibles.add("En Testing");
         estadosPosibles.add("Finalizada");
-        this.tablero = new Tablero(estadosPosibles);
+        this.tablero = new Tablero(this.proyecto, estadosPosibles);
     }
 
     public boolean crearTarea(String descripcion){
@@ -63,5 +68,9 @@ public class FachadaTablero {
 
     public Tarea getPrimeraTarea(){
         return this.tareas.get(0);
+    }
+
+    public Proyecto getProyecto() {
+        return proyecto;
     }
 }

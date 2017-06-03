@@ -20,7 +20,7 @@ public class CrearTareaSteps {
         fachadaTablero.crearTablero();
     }
 
-    @Cuando("^creo una tarea con descripcion \"(.*?)\"$")
+    @Cuando("^creo una tarea con descripcion \"(.*?)\" y sin responsable$")
     public void creo_una_tarea(String descripcion) throws Throwable {
         this.descripcionTarea = descripcion;
         resultadoCreacion = fachadaTablero.crearTarea(this.descripcionTarea);
@@ -40,6 +40,11 @@ public class CrearTareaSteps {
     @Entonces("^la tarea creada tiene la descripcion \"(.*?)\"$")
     public void la_tarea_creada_tiene_la_descripcion(String descripcion) throws Throwable {
         assertEquals(this.fachadaTablero.getPrimeraTarea().getDescripcion(), descripcion);
+    }
+
+    @Entonces("^el lider de proyecto es el responsable de la tarea$")
+    public void el_lider_de_proyecto_es_el_responsable_de_la_tarea() throws Throwable {
+        assertEquals(this.fachadaTablero.getProyecto().getLider(),this.fachadaTablero.getPrimeraTarea().getResponsable());
     }
 
 
