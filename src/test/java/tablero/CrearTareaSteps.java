@@ -47,6 +47,10 @@ public class CrearTareaSteps {
         assertEquals(this.fachadaTablero.getProyecto().getLider(),this.fachadaTablero.getPrimeraTarea().getResponsable());
     }
 
+    @Cuando("^un empleado sin autorizar crea una tarea$")
+    public void un_empleado_sin_autorizar_crea_una_tarea() throws Throwable {
+        resultadoCreacion = fachadaTablero.crearTareaSinAutorizacion();
+    }
 
     @Entonces("^se lanza una excepcion$")
     public void se_lanza_una_excepcion() throws Throwable {

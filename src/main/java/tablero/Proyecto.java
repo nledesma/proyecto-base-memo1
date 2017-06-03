@@ -16,6 +16,10 @@ public class Proyecto {
         this.miembros.add(lider);
     }
 
+    public boolean esMiembro(Empleado empleado){
+        return this.miembros.indexOf(empleado) != -1;
+    }
+
     public Empleado getLider() {
         return lider;
     }

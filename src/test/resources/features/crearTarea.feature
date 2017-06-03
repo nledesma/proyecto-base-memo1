@@ -12,3 +12,8 @@ Característica: Creacion de tarea
     Dado un determinado tablero de proyecto
     Cuando creo una tarea sin descripcion
     Entonces se lanza una excepcion
+
+  Escenario: Nueva tarea sin autorizar
+    Dado un determinado tablero de proyecto
+    Cuando un empleado sin autorizar crea una tarea
+    Entonces se lanza una excepcion

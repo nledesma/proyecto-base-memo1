@@ -1,5 +1,7 @@
 package tablero;
 
+import personas.Empleado;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,10 @@ public class Tablero {
 
     public List<String> getEstadosPosibles() {
         return this.estadosPosibles;
+    }
+
+    public boolean autorizarCreacionTarea(Empleado usuario){
+        return this.proyecto.esMiembro(usuario);
     }
 
     public String getPrimerEstado() {

@@ -1,5 +1,6 @@
 package tablero;
 
+import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.Evento;
 import utils.Historial;
@@ -23,6 +24,7 @@ public class Tarea {
         if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
         this.creador = creador;
         this.tablero = tablero;
+        if(!this.tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
         this.descripcion = descripcion;
         this.prioridad = prioridad;
         this.estado = tablero.getPrimerEstado(); // Obtiene por default el estado base del tablero

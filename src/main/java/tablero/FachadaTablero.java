@@ -1,5 +1,6 @@
 package tablero;
 
+import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.Prioridad;
 
@@ -14,11 +15,13 @@ public class FachadaTablero {
     private Tablero tablero;
     private Empleado empladoInteraccion;
     private Empleado lider;
+    private Empleado noAutorizado;
     private List<Tarea> tareas;
 
     public FachadaTablero() {
         this.empladoInteraccion = new Empleado("Juan", "Perez");
         this.lider = new Empleado("The", "Boss");
+        this.noAutorizado = new Empleado("Un", "Authorized");
         this.tareas = new ArrayList<Tarea>();
         this.proyecto = new Proyecto(lider);
         this.proyecto.addMiembro(empladoInteraccion);
@@ -48,6 +51,16 @@ public class FachadaTablero {
             Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "",null, 0, 0, null);
             this.tareas.add(tarea);
         } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean crearTareaSinAutorizacion(){
+        try {
+            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion",null, 0, 0, null);
+            this.tareas.add(tarea);
+        } catch (UnauthorizedException e){
             return false;
         }
         return true;
