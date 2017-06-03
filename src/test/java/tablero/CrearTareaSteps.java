@@ -12,6 +12,7 @@ public class CrearTareaSteps {
 
     private FachadaTablero fachadaTablero;
     private boolean resultadoCreacion;
+    private String descripcionTarea;
 
     @Dado("^un determinado tablero de proyecto$")
     public void un_determinado_tablero_de_proyecto() throws Throwable {
@@ -19,9 +20,10 @@ public class CrearTareaSteps {
         fachadaTablero.crearTablero();
     }
 
-    @Cuando("^creo una tarea$")
-    public void creo_una_tarea() throws Throwable {
-        resultadoCreacion = fachadaTablero.crearTarea();
+    @Cuando("^creo una tarea con descripcion \"(.*?)\"$")
+    public void creo_una_tarea(String descripcion) throws Throwable {
+        this.descripcionTarea = descripcion;
+        resultadoCreacion = fachadaTablero.crearTarea(this.descripcionTarea);
     }
 
     @Entonces("^se crea una tarea con estado inicial pendiente$")
@@ -34,6 +36,12 @@ public class CrearTareaSteps {
     public void creo_una_tarea_sin_descripcion() throws Throwable {
         resultadoCreacion = fachadaTablero.crearTareaSinDescripcion();
     }
+
+    @Entonces("^la tarea creada tiene la descripcion \"(.*?)\"$")
+    public void la_tarea_creada_tiene_la_descripcion(String descripcion) throws Throwable {
+        assertEquals(this.fachadaTablero.getPrimeraTarea().getDescripcion(), descripcion);
+    }
+
 
     @Entonces("^se lanza una excepcion$")
     public void se_lanza_una_excepcion() throws Throwable {

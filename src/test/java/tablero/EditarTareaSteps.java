@@ -24,7 +24,7 @@ public class EditarTareaSteps {
         fachadaTablero.crearTablero();
         //ToDo: solucionar problema de metodo duplicado
 
-        fachadaTablero.crearTarea();
+        fachadaTablero.crearTarea("Una descripcion");
         tarea = fachadaTablero.getPrimeraTarea();
     }
 

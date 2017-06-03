@@ -28,9 +28,9 @@ public class FachadaTablero {
         this.tablero = new Tablero(estadosPosibles);
     }
 
-    public boolean crearTarea(){
+    public boolean crearTarea(String descripcion){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion", null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, descripcion, null, 0, 0, null);
             this.tareas.add(tarea);
         } catch (Exception e){
             return false;
