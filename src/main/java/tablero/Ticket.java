@@ -15,7 +15,7 @@ public class Ticket {
     private Date fechaResolucion;
     private Historial historial;
 
-    public Ticket(Empleado creador, String descripcion, Prioridad prioridad, int horasEstimadas, int horasTrabajadas) {
+    public Ticket(Empleado creador, String descripcion, Prioridad prioridad) {
         this.validarCamposObligatorios(descripcion);
 
         this.creador = creador;
@@ -75,5 +75,21 @@ public class Ticket {
     public void setEstado(EstadoTicket estado, Empleado autor) {
         this.agregarEventoEdicion("estado", this.descripcion, autor);
         this.estado = estado;
+    }
+
+    public Date getFechaEstimadaResolucion() {
+        return fechaEstimadaResolucion;
+    }
+
+    public void setFechaEstimadaResolucion(Date fechaEstimadaResolucion) {
+        this.fechaEstimadaResolucion = fechaEstimadaResolucion;
+    }
+
+    public Date getFechaResolucion() {
+        return fechaResolucion;
+    }
+
+    public void setFechaResolucion(Date fechaResolucion) {
+        this.fechaResolucion = fechaResolucion;
     }
 }

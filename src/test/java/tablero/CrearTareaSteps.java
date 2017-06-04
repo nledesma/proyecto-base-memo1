@@ -11,7 +11,7 @@ import static org.junit.Assert.assertFalse;
 public class CrearTareaSteps {
 
     private FachadaTablero fachadaTablero;
-    private boolean resultadoCreacion;
+    private String resultadoCreacion;
     private String descripcionTarea;
 
     @Dado("^un determinado tablero de proyecto$")
@@ -28,7 +28,7 @@ public class CrearTareaSteps {
 
     @Entonces("^se crea una tarea con estado inicial pendiente$")
     public void se_crea_una_tarea_con_estado_inicial_pendiente() throws Throwable {
-        assertTrue(resultadoCreacion);
+        assertEquals("OK", resultadoCreacion);
         assertEquals("Pendiente", fachadaTablero.getPrimeraTarea().getEstado());
     }
 
@@ -57,9 +57,14 @@ public class CrearTareaSteps {
         resultadoCreacion = fachadaTablero.crearTareaSinAutorizacion();
     }
 
-    @Entonces("^se lanza una excepcion$")
-    public void se_lanza_una_excepcion() throws Throwable {
-        assertFalse(resultadoCreacion);
+    @Cuando("^creo una tarea de soporte sin ticket asociado$")
+    public void creo_una_tarea_de_soporte_sin_ticket_asociado() throws Throwable {
+        resultadoCreacion = fachadaTablero.crearTareaSoporteSinTicket();
+    }
+
+    @Entonces("^se lanza una excepcion con mensaje \"(.*?)\"$")
+    public void se_lanza_una_excepcion(String mensaje) throws Throwable {
+        assertEquals(mensaje , resultadoCreacion);
     }
 
 }

@@ -20,9 +20,9 @@ public class FachadaTablero {
     private List<Tarea> tareas;
 
     public FachadaTablero() {
-        this.empladoInteraccion = new Empleado("Juan", "Perez");
-        this.lider = new Empleado("The", "Boss");
-        this.noAutorizado = new Empleado("Un", "Authorized");
+        this.empladoInteraccion = new Empleado("Juan", "Perez", 8);
+        this.lider = new Empleado("The", "Boss", 8);
+        this.noAutorizado = new Empleado("Un", "Authorized", 8);
         this.tareas = new ArrayList<Tarea>();
         this.proyecto = new Proyecto(lider);
         this.proyecto.addMiembro(empladoInteraccion);
@@ -37,44 +37,54 @@ public class FachadaTablero {
         this.tablero = new Tablero(this.proyecto, estadosPosibles);
     }
 
-    public boolean crearTarea(String descripcion){
+    public String crearTarea(String descripcion){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, descripcion, TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, descripcion, TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null, null);
             this.tareas.add(tarea);
         } catch (Exception e){
-            return false;
+            return e.getMessage();
         }
-        return true;
+        return "OK";
     }
 
-    public boolean crearTareaSinDescripcion(){
+    public String crearTareaSinDescripcion(){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "", TipoTarea.NUEVO_DESARROLLO ,null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "", TipoTarea.NUEVO_DESARROLLO ,null, 0, 0, null, null);
             this.tareas.add(tarea);
         } catch (Exception e){
-            return false;
+            return e.getMessage();
         }
-        return true;
+        return "OK";
     }
 
-    public boolean crearTareaSinTipoTarea(){
+    public String crearTareaSinTipoTarea(){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion", null ,null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion", null ,null, 0, 0, null, null);
             this.tareas.add(tarea);
         } catch (Exception e){
-            return false;
+            return e.getMessage();
         }
-        return true;
+        return "OK";
     }
 
-    public boolean crearTareaSinAutorizacion(){
+    public String crearTareaSoporteSinTicket(){
         try {
-            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion", TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion", TipoTarea.SOPORTE ,null, 0, 0, null, null);
+            this.tareas.add(tarea);
+        } catch (Exception e){
+            return e.getMessage();
+        }
+        return "OK";
+    }
+
+    public String crearTareaSinAutorizacion(){
+        try {
+            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion", TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null, null);
             this.tareas.add(tarea);
         } catch (UnauthorizedException e){
-            return false;
+            return e.getMessage();
         }
-        return true;
+        return "OK";
     }
 
     public void cambiarEstadoTarea(Tarea tarea){

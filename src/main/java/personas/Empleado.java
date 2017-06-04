@@ -5,10 +5,12 @@ import tablero.Tarea;
 public class Empleado {
     private String nombre;
     private String apellido;
+    private int dedicacionHoraria;
 
-    public Empleado(String nombre, String apellido) {
+    public Empleado(String nombre, String apellido, int dedicacionHoraria) {
         this.nombre = nombre;
         this.apellido = apellido;
+        this.dedicacionHoraria = dedicacionHoraria;
     }
 
     public String getNombre() {

@@ -16,9 +16,10 @@ public class Tarea {
     private int horasTrabajadas;
     private Empleado responsable;
     private Historial historial;
+    private Ticket ticket;
 
-    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
-        this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea);
+    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket) {
+        this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea, ticket);
 
         this.creador = creador;
         this.tablero = tablero;
@@ -30,19 +31,22 @@ public class Tarea {
         this.horasTrabajadas = horasTrabajadas == 0 ? -1 : horasTrabajadas; // -1 En caso de no haber sido inicializada
         this.responsable = responsable;
         this.responsable = (responsable != null) ? responsable : this.getTablero().getProyecto().getLider();
+        this.ticket = ticket;
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
     }
 
-    private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea) {
+    private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Ticket ticket) {
         if(!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
         if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
         if (tipoTarea == null) throw new RuntimeException("El campo tipo tarea es obligatorio");
+        if (tipoTarea == TipoTarea.SOPORTE && ticket == null) throw new RuntimeException("La tarea de soporte debe estar vinculada a un ticket");
     }
 
     private Evento crearEventoCreacion() {
         Map<String, String> valores = new HashMap<String, String>();
         valores.put("descripcion", this.descripcion);
+        valores.put("tipo de tarea", this.tipoTarea.toString());
         valores.put("responsable", this.responsable.toString());
         if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
         if (this.horasTrabajadas != -1) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
