@@ -10,10 +10,10 @@ public class Evento {
     private Date fecha;
     private Empleado autor;
 
-    public Evento(TipoEvento tipoEvento, Map<String, String> valores, Date cuando, Empleado por) {
+    public Evento(TipoEvento tipoEvento, Map<String, String> valores, Empleado por) {
         this.tipoEvento = tipoEvento;
         this.valores = valores;
-        this.fecha = cuando;
+        this.fecha = new Date();
         this.autor = por;
     }
 }

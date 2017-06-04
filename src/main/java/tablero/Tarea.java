@@ -2,17 +2,14 @@ package tablero;
 
 import excepciones.UnauthorizedException;
 import personas.Empleado;
-import utils.Evento;
-import utils.Historial;
-import utils.Prioridad;
-import utils.TipoEvento;
-
+import utils.*;
 import java.util.*;
 
 public class Tarea {
     private Empleado creador;
     private Tablero tablero;
     private String descripcion;
+    private TipoTarea tipoTarea;
     private String estado;
     private Prioridad prioridad;
     private int horasEstimadas;
@@ -20,12 +17,13 @@ public class Tarea {
     private Empleado responsable;
     private Historial historial;
 
-    public Tarea(Empleado creador, Tablero tablero, String descripcion, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
-        if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
+    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable) {
+        this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea);
+
         this.creador = creador;
         this.tablero = tablero;
-        if(!this.tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
         this.descripcion = descripcion;
+        this.tipoTarea = tipoTarea;
         this.prioridad = prioridad;
         this.estado = tablero.getPrimerEstado(); // Obtiene por default el estado base del tablero
         this.horasEstimadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
@@ -34,6 +32,12 @@ public class Tarea {
         this.responsable = (responsable != null) ? responsable : this.getTablero().getProyecto().getLider();
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
+    }
+
+    private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea) {
+        if(!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
+        if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
+        if (tipoTarea == null) throw new RuntimeException("El campo tipo tarea es obligatorio");
     }
 
     private Evento crearEventoCreacion() {
@@ -46,13 +50,13 @@ public class Tarea {
 
         valores.put("estado", this.estado);
 
-        return new Evento(TipoEvento.NUEVO, valores, new Date() , this.creador);
+        return new Evento(TipoEvento.NUEVO, valores, this.creador);
     }
 
     private void agregarEventoEdicion(String nombreAtributo, String valorAtributo, Empleado autor) {
-        Map<String, String> valores = new HashMap();
+        Map<String, String> valores = new HashMap<String, String>();
         valores.put(nombreAtributo, valorAtributo);
-        this.historial.addEvento(new Evento(TipoEvento.EDICION, valores, new Date() , autor));
+        this.historial.addEvento(new Evento(TipoEvento.EDICION, valores , autor));
     }
 
 

@@ -3,6 +3,7 @@ package tablero;
 import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.Prioridad;
+import utils.TipoTarea;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class FachadaTablero {
 
     public boolean crearTarea(String descripcion){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, descripcion, null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, descripcion, TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null);
             this.tareas.add(tarea);
         } catch (Exception e){
             return false;
@@ -48,7 +49,17 @@ public class FachadaTablero {
 
     public boolean crearTareaSinDescripcion(){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "",null, 0, 0, null);
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "", TipoTarea.NUEVO_DESARROLLO ,null, 0, 0, null);
+            this.tareas.add(tarea);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean crearTareaSinTipoTarea(){
+        try {
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion", null ,null, 0, 0, null);
             this.tareas.add(tarea);
         } catch (Exception e){
             return false;
@@ -58,7 +69,7 @@ public class FachadaTablero {
 
     public boolean crearTareaSinAutorizacion(){
         try {
-            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion",null, 0, 0, null);
+            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion", TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null);
             this.tareas.add(tarea);
         } catch (UnauthorizedException e){
             return false;

@@ -20,7 +20,7 @@ public class CrearTareaSteps {
         fachadaTablero.crearTablero();
     }
 
-    @Cuando("^creo una tarea con descripcion \"(.*?)\" y sin responsable$")
+    @Cuando("^creo una tarea de desarrollo con descripcion \"(.*?)\" y sin responsable$")
     public void creo_una_tarea(String descripcion) throws Throwable {
         this.descripcionTarea = descripcion;
         resultadoCreacion = fachadaTablero.crearTarea(this.descripcionTarea);
@@ -32,9 +32,14 @@ public class CrearTareaSteps {
         assertEquals("Pendiente", fachadaTablero.getPrimeraTarea().getEstado());
     }
 
-    @Cuando("^creo una tarea sin descripcion$")
+    @Cuando("^creo una tarea de desarrollo sin descripcion$")
     public void creo_una_tarea_sin_descripcion() throws Throwable {
         resultadoCreacion = fachadaTablero.crearTareaSinDescripcion();
+    }
+
+    @Cuando("^creo una tarea de desarrollo sin especificar el tipo$")
+    public void creo_una_tarea_de_desarrollo_sin_especificar_el_tipo() throws Throwable {
+        resultadoCreacion = fachadaTablero.crearTareaSinTipoTarea();
     }
 
     @Entonces("^la tarea creada tiene la descripcion \"(.*?)\"$")
