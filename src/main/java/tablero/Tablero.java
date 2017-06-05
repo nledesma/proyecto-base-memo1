@@ -1,6 +1,5 @@
 package tablero;
 
-import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import personas.Empleado;
 import utils.Alerta;
 import utils.Calendario;
