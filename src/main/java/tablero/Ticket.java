@@ -1,5 +1,6 @@
 package tablero;
 
+import excepciones.RequiredFieldException;
 import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.*;
@@ -28,7 +29,7 @@ public class Ticket {
     }
 
     private void validarCamposObligatorios(String descripcion) {
-        if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
+        if (descripcion == "") throw new RequiredFieldException("El campo descripcion es obligatorio");
     }
 
     private Evento crearEventoCreacion() {

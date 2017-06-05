@@ -62,6 +62,8 @@ public class Tablero {
         return this.proyecto.esMiembro(usuario);
     }
 
+    public boolean autorizarAsignacionTarea(Empleado usuario) { return this.proyecto.esMiembro(usuario); }
+
     public String getPrimerEstado() {
         return this.estadosPosibles.get(0);
     }

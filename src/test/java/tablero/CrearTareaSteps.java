@@ -101,4 +101,10 @@ public class CrearTareaSteps {
         assertEquals(TipoEvento.EDICION, tarea.getHistorial().getUltimoEvento().getTipoEvento());
     }
 
+    @Cuando("^una tarea es asignada a alguien que no pertenece al proyecto$")
+    public void una_tarea_es_asignada_a_alguien_que_no_pertenece_al_proyecto() throws Throwable {
+        resultadoCreacion = fachadaTablero.crearTareaResponsableNoMiembro();
+    }
+
+
 }

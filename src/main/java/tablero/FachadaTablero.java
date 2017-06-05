@@ -1,5 +1,6 @@
 package tablero;
 
+import excepciones.AssignationException;
 import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.Alerta;
@@ -118,6 +119,17 @@ public class FachadaTablero {
         return "OK";
     }
 
+    public String crearTareaResponsableNoMiembro() {
+        try {
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion",
+                    TipoTarea.NUEVO_DESARROLLO,null, 0, 0, this.noAutorizado, null, null);
+            this.tareas.add(tarea);
+        } catch (AssignationException e){
+            return e.getMessage();
+        }
+        return "OK";
+    }
+
     public void cambiarEstadoTarea(Tarea tarea){
         List<String> estadosPosibles = tablero.getEstadosPosibles();
         int indexSiguienteEstado = estadosPosibles.indexOf(tarea.getEstado()) + 1;
@@ -151,4 +163,5 @@ public class FachadaTablero {
     public Fase getFase() {
         return fase;
     }
+
 }

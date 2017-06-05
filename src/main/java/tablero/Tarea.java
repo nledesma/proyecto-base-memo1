@@ -1,5 +1,8 @@
 package tablero;
 
+import excepciones.AssignationException;
+import excepciones.RequiredFieldException;
+import excepciones.UnasignedTicketException;
 import excepciones.UnauthorizedException;
 import personas.Empleado;
 import utils.*;
@@ -21,7 +24,7 @@ public class Tarea {
 
     public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad,
                  int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket, Fase fase) {
-        this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea, ticket);
+        this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea, ticket, responsable);
 
         this.creador = creador;
         this.tablero = tablero;
@@ -32,7 +35,6 @@ public class Tarea {
         this.estado = tablero.getPrimerEstado(); // Obtiene por default el estado base del tablero
         this.horasEstimadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
         this.horasTrabajadas = horasTrabajadas;
-        this.responsable = responsable;
         this.responsable = (responsable != null) ? responsable : this.getTablero().getProyecto().getLider();
         this.ticket = ticket;
         Evento eventoCreacion = this.crearEventoCreacion();
@@ -40,11 +42,12 @@ public class Tarea {
         this.fase = fase;
     }
 
-    private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Ticket ticket) {
-        if(!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
-        if (descripcion == "") throw new RuntimeException("El campo descripcion es obligatorio");
-        if (tipoTarea == null) throw new RuntimeException("El campo tipo tarea es obligatorio");
-        if (tipoTarea == TipoTarea.SOPORTE && ticket == null) throw new RuntimeException("La tarea de soporte debe estar vinculada a un ticket");
+    private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Ticket ticket, Empleado responsable) {
+        if (!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
+        if (responsable != null && !tablero.autorizarAsignacionTarea(responsable)) throw new AssignationException("El responsable no forma parte del proyecto");
+        if (descripcion == "") throw new RequiredFieldException("El campo descripcion es obligatorio");
+        if (tipoTarea == null) throw new RequiredFieldException("El campo tipo tarea es obligatorio");
+        if (tipoTarea == TipoTarea.SOPORTE && ticket == null) throw new UnasignedTicketException("La tarea de soporte debe estar vinculada a un ticket");
     }
 
     private Evento crearEventoCreacion() {

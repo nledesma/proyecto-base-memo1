@@ -29,6 +29,11 @@ Característica: Creacion y edición de tarea
     Cuando un empleado sin autorizar crea una tarea
     Entonces se lanza una excepcion con mensaje "El usuario no puede crear esta tarea"
 
+  Escenario: Nueva tarea responsable incorrecto
+    Dado un determinado tablero de proyecto
+    Cuando una tarea es asignada a alguien que no pertenece al proyecto
+    Entonces se lanza una excepcion con mensaje "El responsable no forma parte del proyecto"
+
   Escenario: Cambio de estado de una tarea
     Dado un determinado tablero de proyecto
     Dado una tarea del tablero
