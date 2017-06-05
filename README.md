@@ -1,11 +1,14 @@
-# Proyecto base
+# Trabajo práctico grupal - Análisis de la Información / Métodos y Modelos en Ingenieria de Software
+## 1er Cuatrimestre 2017
+## Grupo: 9
 
 [![Build Status](https://travis-ci.org/nledesma/psa-grupo9.svg?branch=master)](https://travis-ci.org/nledesma/psa-grupo9)
 
-Este proyecto es un ejemplo del uso de la herramienta Cucumber como medio de implementacion de la técnica BDD
+## Sistema de administración de tareas desarrollado por _Grupo 9_ para _PSA_
 
-Para correr este ejemplo ejecutar:
+Este proyecto contiene la implementación de algunas historias de usuario habiendo aplicado BDD. Las pruebas de comportamiento fueron implementadas con Cucumber.
 
+## Ejecución:
 ```
 mvn test
 ```
