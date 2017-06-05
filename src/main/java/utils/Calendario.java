@@ -16,7 +16,6 @@ public final class Calendario {
 
         int habiles = 0;
 
-        //Return 0 if start and end are the same
         if (startCal.getTimeInMillis() == endCal.getTimeInMillis()) {
             return 0;
         }
@@ -27,7 +26,6 @@ public final class Calendario {
         }
 
         do {
-            //excluding start date
             startCal.add(Calendar.DAY_OF_MONTH, 1);
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
                 ++habiles;
