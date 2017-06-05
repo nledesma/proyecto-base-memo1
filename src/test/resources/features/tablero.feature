@@ -1,5 +1,5 @@
 # language: es
-Característica: Edicion de tarea
+Característica: Tablero y alertas
 
   Escenario: Se agregan tareas estimadas a un tablero
     Dado un determinado tablero de proyecto con dos desarrolladores de dedicacion de "8" horas
