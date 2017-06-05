@@ -17,23 +17,27 @@ public class Tarea {
     private Empleado responsable;
     private Historial historial;
     private Ticket ticket;
+    private Fase fase;
 
-    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad, int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket) {
+    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad,
+                 int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket, Fase fase) {
         this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea, ticket);
 
         this.creador = creador;
         this.tablero = tablero;
+        this.tablero.addTarea(this);
         this.descripcion = descripcion;
         this.tipoTarea = tipoTarea;
         this.prioridad = prioridad;
         this.estado = tablero.getPrimerEstado(); // Obtiene por default el estado base del tablero
         this.horasEstimadas = horasEstimadas == 0 ? -1 : horasEstimadas; // -1 En caso de no haber sido inicializada
-        this.horasTrabajadas = horasTrabajadas == 0 ? -1 : horasTrabajadas; // -1 En caso de no haber sido inicializada
+        this.horasTrabajadas = horasTrabajadas;
         this.responsable = responsable;
         this.responsable = (responsable != null) ? responsable : this.getTablero().getProyecto().getLider();
         this.ticket = ticket;
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
+        this.fase = fase;
     }
 
     private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Ticket ticket) {
@@ -49,7 +53,7 @@ public class Tarea {
         valores.put("tipo de tarea", this.tipoTarea.toString());
         valores.put("responsable", this.responsable.toString());
         if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
-        if (this.horasTrabajadas != -1) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
+        if (this.horasTrabajadas != 0) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
         if (this.prioridad != null) valores.put("prioridad", this.prioridad.toString());
 
         valores.put("estado", this.estado);
@@ -100,6 +104,15 @@ public class Tarea {
         return historial;
     }
 
+    public Fase getFase() {
+        return fase;
+    }
+
+    public void setFase(Fase fase) {
+        this.fase = fase;
+        this.fase.addTarea(this);
+    }
+
     public void setDescripcion(String descripcion, Empleado autor) {
         this.agregarEventoEdicion("descripcion", this.descripcion, autor);
         this.descripcion = descripcion;
@@ -108,5 +121,12 @@ public class Tarea {
     public void setEstado(String estado, Empleado autor) {
         this.agregarEventoEdicion("estado", this.descripcion, autor);
         this.estado = estado;
+    }
+
+    public int getHorasPendientes(){
+        if (this.horasEstimadas != -1){
+            return this.horasEstimadas - this.horasTrabajadas;
+        }
+        return 0;
     }
 }

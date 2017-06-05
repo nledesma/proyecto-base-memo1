@@ -25,4 +25,12 @@ public class Empleado {
     public String toString() {
         return this.nombre + " " +this.apellido;
     }
+
+    public int getDedicacionHoraria() {
+        return dedicacionHoraria;
+    }
+
+    public void setDedicacionHoraria(int dedicacionHoraria) {
+        this.dedicacionHoraria = dedicacionHoraria;
+    }
 }

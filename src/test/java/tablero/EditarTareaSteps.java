@@ -21,7 +21,7 @@ public class EditarTareaSteps {
     @Dado("^una tarea del tablero$")
     public void una_tarea_del_tablero() throws Throwable {
         fachadaTablero = new FachadaTablero();
-        fachadaTablero.crearTablero();
+        fachadaTablero.crearTablero(6);
         //ToDo: solucionar problema de metodo duplicado
 
         fachadaTablero.crearTarea("Una descripcion");

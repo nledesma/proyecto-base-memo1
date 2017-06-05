@@ -17,7 +17,7 @@ public class CrearTareaSteps {
     @Dado("^un determinado tablero de proyecto$")
     public void un_determinado_tablero_de_proyecto() throws Throwable {
         fachadaTablero = new FachadaTablero();
-        fachadaTablero.crearTablero();
+        fachadaTablero.crearTablero(6);
     }
 
     @Cuando("^creo una tarea de desarrollo con descripcion \"(.*?)\" y sin responsable$")
