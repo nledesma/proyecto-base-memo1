@@ -55,6 +55,7 @@ public class Tarea {
         if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
         if (this.horasTrabajadas != 0) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
         if (this.prioridad != null) valores.put("prioridad", this.prioridad.toString());
+        if (this.fase != null) valores.put("fase", this.fase.toString());
 
         valores.put("estado", this.estado);
 
@@ -108,18 +109,19 @@ public class Tarea {
         return fase;
     }
 
-    public void setFase(Fase fase) {
+    public void setFase(Fase fase, Empleado autor) {
+        this.agregarEventoEdicion("fase", fase.toString(), autor);
         this.fase = fase;
         this.fase.addTarea(this);
     }
 
     public void setDescripcion(String descripcion, Empleado autor) {
-        this.agregarEventoEdicion("descripcion", this.descripcion, autor);
+        this.agregarEventoEdicion("descripcion", descripcion, autor);
         this.descripcion = descripcion;
     }
 
     public void setEstado(String estado, Empleado autor) {
-        this.agregarEventoEdicion("estado", this.descripcion, autor);
+        this.agregarEventoEdicion("estado", estado, autor);
         this.estado = estado;
     }
 

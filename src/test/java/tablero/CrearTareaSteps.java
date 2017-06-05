@@ -3,16 +3,20 @@ package tablero;
 import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Dado;
 import cucumber.api.java.es.Entonces;
+import utils.TipoEvento;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 public class CrearTareaSteps {
 
     private FachadaTablero fachadaTablero;
     private String resultadoCreacion;
     private String descripcionTarea;
+    private Tarea tarea;
+    private int indexEstadoAnterior;
+    private List<String> estadosPosibles;
 
     @Dado("^un determinado tablero de proyecto$")
     public void un_determinado_tablero_de_proyecto() throws Throwable {
@@ -65,6 +69,36 @@ public class CrearTareaSteps {
     @Entonces("^se lanza una excepcion con mensaje \"(.*?)\"$")
     public void se_lanza_una_excepcion(String mensaje) throws Throwable {
         assertEquals(mensaje , resultadoCreacion);
+    }
+
+    @Dado("^una tarea del tablero$")
+    public void una_tarea_del_tablero() throws Throwable {
+        fachadaTablero.crearTarea("Una descripcion");
+        tarea = fachadaTablero.getPrimeraTarea();
+    }
+
+    @Cuando("^cambio su estado$")
+    public void cambio_su_estado() throws Throwable {
+        estadosPosibles = fachadaTablero.getEstadosPosibles();
+        indexEstadoAnterior = estadosPosibles.indexOf(tarea.getEstado());
+        fachadaTablero.cambiarEstadoTarea(tarea);
+    }
+
+    @Entonces("^la tarea pasa al estado indicado$")
+    public void la_tarea_pasa_al_estado_indicado() throws Throwable {
+        String estadoEsperado = estadosPosibles.get(indexEstadoAnterior + 1);
+        assertEquals(estadoEsperado, tarea.getEstado());
+    }
+
+    @Entonces("^se crea un evento de creacion en el historial$")
+    public void se_crea_un_evento_de_creacion_en_el_historial() throws Throwable {
+        tarea = this.fachadaTablero.getPrimeraTarea();
+        assertEquals(TipoEvento.NUEVO, tarea.getHistorial().getUltimoEvento().getTipoEvento());
+    }
+
+    @Entonces("^se crea un evento de edicion en el historial$")
+    public void se_crea_un_evento_de_edicion_en_el_historial() throws Throwable {
+        assertEquals(TipoEvento.EDICION, tarea.getHistorial().getUltimoEvento().getTipoEvento());
     }
 
 }

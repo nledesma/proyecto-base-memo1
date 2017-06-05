@@ -71,7 +71,7 @@ public class FachadaTablero {
     }
 
     public void asignarFaseAtarea(){
-        this.tareaActual.setFase(this.fase);
+        this.tareaActual.setFase(this.fase, this.lider);
     }
 
     public String crearTareaSinDescripcion(){
@@ -119,10 +119,9 @@ public class FachadaTablero {
     }
 
     public void cambiarEstadoTarea(Tarea tarea){
-        //ToDo crear objeto Estados para evitar este tipo de manejos?
         List<String> estadosPosibles = tablero.getEstadosPosibles();
         int indexSiguienteEstado = estadosPosibles.indexOf(tarea.getEstado()) + 1;
-        if (indexSiguienteEstado >= estadosPosibles.size()) throw new RuntimeException();
+        if (indexSiguienteEstado >= estadosPosibles.size()) throw new RuntimeException("La tarea ya se encuentra en el ultimo estado");
         String nuevoEstado = estadosPosibles.get(indexSiguienteEstado);
         tarea.setEstado(nuevoEstado, empladoInteraccion);
     }

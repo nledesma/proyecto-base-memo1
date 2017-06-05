@@ -14,4 +14,8 @@ public class Historial {
     public void addEvento(Evento evento){
         this.eventos.add(evento);
     }
+
+    public Evento getUltimoEvento(){
+        return eventos.get(eventos.size() - 1);
+    }
 }

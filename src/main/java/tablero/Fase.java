@@ -63,4 +63,9 @@ public class Fase {
     public List<Alerta> getAlertas(){
         return this.tablero.getAlertasPorFase(this);
     }
+
+    @Override
+    public String toString(){
+        return this.descripcion;
+    }
 }

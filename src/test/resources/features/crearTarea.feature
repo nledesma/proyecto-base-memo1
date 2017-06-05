@@ -1,5 +1,5 @@
 # language: es
-Característica: Creacion de tarea
+Característica: Creacion y edición de tarea
 
   Escenario: Nueva tarea
     Dado un determinado tablero de proyecto
@@ -7,6 +7,7 @@ Característica: Creacion de tarea
     Entonces se crea una tarea con estado inicial pendiente
     Entonces la tarea creada tiene la descripcion "una tarea"
     Entonces el lider de proyecto es el responsable de la tarea
+    Entonces se crea un evento de creacion en el historial
 
   Escenario: Nueva tarea sin descripcion
     Dado un determinado tablero de proyecto
@@ -27,3 +28,10 @@ Característica: Creacion de tarea
     Dado un determinado tablero de proyecto
     Cuando un empleado sin autorizar crea una tarea
     Entonces se lanza una excepcion con mensaje "El usuario no puede crear esta tarea"
+
+  Escenario: Cambio de estado de una tarea
+    Dado un determinado tablero de proyecto
+    Dado una tarea del tablero
+    Cuando cambio su estado
+    Entonces la tarea pasa al estado indicado
+    Entonces se crea un evento de edicion en el historial
