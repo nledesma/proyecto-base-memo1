@@ -1,8 +1,13 @@
 # Trabajo práctico grupal - Análisis de la Información / Métodos y Modelos en Ingenieria de Software
-## 1er Cuatrimestre 2017
-## Grupo: 9
 
 [![Build Status](https://travis-ci.org/nledesma/psa-grupo9.svg?branch=master)](https://travis-ci.org/nledesma/psa-grupo9)
+
+## 1er Cuatrimestre 2017
+## Grupo: 9
+- Joaquín Casal
+- Lautaro Ituarte
+- Nicolás Ledesma
+- Pablo Murk
 
 ## Sistema de administración de tareas desarrollado por _Grupo 9_ para _PSA_
 
