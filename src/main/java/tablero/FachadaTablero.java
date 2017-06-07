@@ -24,6 +24,7 @@ public class FachadaTablero {
     private List<Tarea> tareas;
     private Tarea tareaActual;
     private Fase fase;
+    private Iteracion iteracion;
 
     public FachadaTablero() {
     }
@@ -41,11 +42,14 @@ public class FachadaTablero {
         estadosPosibles.add("En Testing");
         estadosPosibles.add("Finalizada");
         this.tablero = new Tablero(this.proyecto, estadosPosibles);
+        this.tablero.addFase("Desarrollo");
+        this.fase = this.tablero.getFases().get(0);
     }
 
-    public void crearFaseTerminaEnNdias(int n){
+    public void crearIteracionTerminaEnNdias(int n){
         Date fechaFin = Calendario.getFechaMasNdiasHabiles(n);
-        this.fase = new Fase(this.tablero, "Una fase", new Date(), fechaFin);
+        this.iteracion = new Iteracion(this.fase, "Iteracion 1", new Date(), fechaFin);
+        this.fase.addIteracion(iteracion);
     }
 
     public String crearTarea(String descripcion){
@@ -61,7 +65,7 @@ public class FachadaTablero {
 
     public String crearTareaHorasEstimadasN(int n){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion", TipoTarea.NUEVO_DESARROLLO,
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion", TipoTarea.NUEVO_DESARROLLO,
                     null, n, 0, null, null, null);
             this.tareaActual = tarea;
             this.tareas.add(tarea);
@@ -71,8 +75,8 @@ public class FachadaTablero {
         return "OK";
     }
 
-    public void asignarFaseAtarea(){
-        this.tareaActual.setFase(this.fase, this.lider);
+    public void asignarIteracionAtarea(){
+        this.tareaActual.setIteracion(this.iteracion, this.lider);
     }
 
     public String crearTareaSinDescripcion(){
@@ -88,7 +92,7 @@ public class FachadaTablero {
 
     public String crearTareaSinTipoTarea(){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion",
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion",
                     null ,null, 0, 0, null, null, null);
             this.tareas.add(tarea);
         } catch (Exception e){
@@ -99,7 +103,7 @@ public class FachadaTablero {
 
     public String crearTareaSoporteSinTicket(){
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion",
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion",
                     TipoTarea.SOPORTE ,null, 0, 0, null, null, null);
             this.tareas.add(tarea);
         } catch (Exception e){
@@ -110,7 +114,7 @@ public class FachadaTablero {
 
     public String crearTareaSinAutorizacion(){
         try {
-            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "una descripcion",
+            Tarea tarea = new Tarea(this.noAutorizado, this.tablero, "Una descripcion",
                     TipoTarea.NUEVO_DESARROLLO,null, 0, 0, null, null, null);
             this.tareas.add(tarea);
         } catch (UnauthorizedException e){
@@ -121,7 +125,7 @@ public class FachadaTablero {
 
     public String crearTareaResponsableNoMiembro() {
         try {
-            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "una descripcion",
+            Tarea tarea = new Tarea(this.empladoInteraccion, this.tablero, "Una descripcion",
                     TipoTarea.NUEVO_DESARROLLO,null, 0, 0, this.noAutorizado, null, null);
             this.tareas.add(tarea);
         } catch (AssignationException e){
@@ -138,8 +142,8 @@ public class FachadaTablero {
         tarea.setEstado(nuevoEstado, empladoInteraccion);
     }
 
-    public String getAlertaFase(){
-        List<Alerta> alertas = this.fase.getAlertas();
+    public String getAlertaIteracion(){
+        List<Alerta> alertas = this.tablero.getAlertas();
 
         if (alertas.size() > 0){
             return alertas.get(0).getDescripcion();
@@ -160,8 +164,7 @@ public class FachadaTablero {
         return proyecto;
     }
 
-    public Fase getFase() {
-        return fase;
+    public Iteracion getIteracion() {
+        return iteracion;
     }
-
 }

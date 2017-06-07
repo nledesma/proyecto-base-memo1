@@ -17,7 +17,7 @@ Característica: Creacion y edición de tarea
   Escenario: Nueva tarea sin tipo
     Dado un determinado tablero de proyecto
     Cuando creo una tarea de desarrollo sin especificar el tipo
-    Entonces se lanza una excepcion con mensaje "El campo tipo tarea es obligatorio"
+    Entonces se lanza una excepcion con mensaje "El campo tipo de tarea es obligatorio"
 
   Escenario: Nueva tarea de soporte sin ticket
     Dado un determinado tablero de proyecto

@@ -14,18 +14,20 @@ public class Tablero {
     List<String> estadosPosibles;
     Proyecto proyecto;
     List<Tarea> tareas;
+    List<Fase> fases;
 
     public Tablero(Proyecto proyecto, List<String> estadosPosibles) {
         this.estadosPosibles = estadosPosibles;
         this.proyecto = proyecto;
         this.tareas = new ArrayList<Tarea>();
+        this.fases = new ArrayList<Fase>();
     }
 
-    private int getHorasDisponiblesHastaFecha(Date fecha){
+    public int getHorasDisponiblesHastaFecha(Date fecha){
         return Calendario.diasHabilesHasta(fecha) * this.getHorasDedicablesPorDia();
     }
 
-    private int getHorasDedicablesPorDia(){
+    public int getHorasDedicablesPorDia(){
         int horas = 0;
         for (int i = 0; i < this.proyecto.miembros.size(); i++) {
             horas += this.proyecto.miembros.get(i).getDedicacionHoraria();
@@ -34,24 +36,14 @@ public class Tablero {
         return horas;
     }
 
-    public List<Alerta> getAlertasPorFase(Fase fase){
+    public List<Alerta> getAlertas(){
+
         List<Alerta> alertas = new ArrayList<Alerta>();
-        int horasRetraso = this.getHorasRetrasoPorFase(fase);
 
-        if (horasRetraso > 0){
-            alertas.add(new Alerta("La fase se encuentra retrasada por "+horasRetraso+" horas."));
+        for (int i = 0; i < this.fases.size(); i++) {
+            alertas.addAll(this.fases.get(i).getAlertas(this));
         }
-
         return alertas;
-    }
-
-    private int getHorasRetrasoPorFase(Fase fase){
-        int horasRetraso = fase.getHorasPendientes() - this.getHorasDisponiblesHastaFecha(fase.getFechaFin());
-
-        if (horasRetraso > 0)
-            return horasRetraso;
-        else
-            return 0;
     }
 
     public List<String> getEstadosPosibles() {
@@ -76,7 +68,14 @@ public class Tablero {
         return this.tareas;
     }
 
+    public List<Fase> getFases() { return this.fases; }
+
     public void addTarea(Tarea tarea){
         this.tareas.add(tarea);
     }
+
+    public void addFase(String descripcion){
+        this.fases.add(new Fase(descripcion));
+    }
+
 }

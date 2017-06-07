@@ -18,29 +18,29 @@ public class TableroSteps {
         fachadaTablero.crearTablero(horas);
     }
 
-    @Dado("^una fase de proyecto que finaliza en \"(.*?)\" dias habiles$")
-    public void una_fase_de_proyecto_que_finaliza_en(int dias) throws Throwable {
-        this.fachadaTablero.crearFaseTerminaEnNdias(dias);
+    @Dado("^una iteracion de proyecto que finaliza en \"(.*?)\" dias habiles$")
+    public void una_iteracion_de_proyecto_que_finaliza_en(int dias) throws Throwable {
+        this.fachadaTablero.crearIteracionTerminaEnNdias(dias);
     }
 
-    @Cuando("^Agrego una tarea estimada en \"(.*?)\" horas en la fase actual")
+    @Cuando("^Agrego una tarea estimada en \"(.*?)\" horas en la iteracion actual")
     public void agrego_una_tarea_estimada_en_horas(int horas) throws Throwable {
         this.fachadaTablero.crearTareaHorasEstimadasN(horas);
-        this.fachadaTablero.asignarFaseAtarea();
+        this.fachadaTablero.asignarIteracionAtarea();
     }
 
-    @Entonces("^la fase indica que hay \"(.*?)\" horas pendientes$")
-    public void la_fase_indica_que_hay_horas_pendientes(int horas) throws Throwable {
-        assertEquals(horas, this.fachadaTablero.getFase().getHorasPendientes());
+    @Entonces("^la iteracion indica que hay \"(.*?)\" horas pendientes$")
+    public void la_iteracion_indica_que_hay_horas_pendientes(int horas) throws Throwable {
+        assertEquals(horas, this.fachadaTablero.getIteracion().getHorasPendientes());
     }
 
-    @Entonces("^no hay alertas de retraso en la fase$")
-    public void no_hay_alertas_de_retraso_en_la_fase() throws Throwable {
-        assertEquals("OK", this.fachadaTablero.getAlertaFase());
+    @Entonces("^no hay alertas de retraso en la iteracion")
+    public void no_hay_alertas_de_retraso_en_la_iteracion() throws Throwable {
+        assertEquals("OK", this.fachadaTablero.getAlertaIteracion());
     }
 
     @Entonces("^existe una alerta \"(.*?)\"$")
     public void existe_una_alerta(String alerta) throws Throwable {
-        assertEquals(alerta, this.fachadaTablero.getAlertaFase());
+        assertEquals(alerta, this.fachadaTablero.getAlertaIteracion());
     }
 }

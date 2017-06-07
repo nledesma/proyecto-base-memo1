@@ -9,6 +9,22 @@ import utils.*;
 import java.util.*;
 
 public class Tarea {
+    private static String DESCRIPCION_STR = "Descripcion";
+    private static String TIPO_TAREA_STR= "Tipo tarea";
+    private static String ESTADO_STR = "Estado";
+    private static String PRIORIDAD_STR = "Prioridad";
+    private static String HORAS_ESTIMADAS_STR = "Horas estimadas";
+    private static String HORAS_TRABAJADAS_STR = "Horas trabajadas";
+    private static String RESPONSABLE_STR= "Responsable";
+    private static String TICKET_STR = "Ticket";
+    private static String ITERACION_STR = "Iteracion";
+
+    private static String MSG_DESAUTORIZADO_TAREA = "El usuario no puede crear esta tarea";
+    private static String MSG_RESPONSABLE_NO_VALIDO = "El responsable no forma parte del proyecto";
+    private static String MSG_DESCRIPCION_OBLIGATORIO = "El campo descripcion es obligatorio";
+    private static String MSG_TIPO_TAREA_OBLIGATORIO = "El campo tipo de tarea es obligatorio";
+    private static String MSG_TICKET_SOPORTE_NO_ESPECIFICADO = "La tarea de soporte debe estar vinculada a un ticket";
+
     private Empleado creador;
     private Tablero tablero;
     private String descripcion;
@@ -20,10 +36,10 @@ public class Tarea {
     private Empleado responsable;
     private Historial historial;
     private Ticket ticket;
-    private Fase fase;
+    private Iteracion iteracion;
 
-    public Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad,
-                 int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket, Fase fase) {
+    Tarea(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Prioridad prioridad,
+                 int horasEstimadas, int horasTrabajadas, Empleado responsable, Ticket ticket, Iteracion iteracion) {
         this.validarCamposObligatorios(creador, tablero, descripcion, tipoTarea, ticket, responsable);
 
         this.creador = creador;
@@ -39,28 +55,28 @@ public class Tarea {
         this.ticket = ticket;
         Evento eventoCreacion = this.crearEventoCreacion();
         this.historial = new Historial(eventoCreacion);
-        this.fase = fase;
+        this.iteracion = iteracion;
     }
 
     private void validarCamposObligatorios(Empleado creador, Tablero tablero, String descripcion, TipoTarea tipoTarea, Ticket ticket, Empleado responsable) {
-        if (!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException("El usuario no puede crear esta tarea");
-        if (responsable != null && !tablero.autorizarAsignacionTarea(responsable)) throw new AssignationException("El responsable no forma parte del proyecto");
-        if (descripcion == "") throw new RequiredFieldException("El campo descripcion es obligatorio");
-        if (tipoTarea == null) throw new RequiredFieldException("El campo tipo tarea es obligatorio");
-        if (tipoTarea == TipoTarea.SOPORTE && ticket == null) throw new UnasignedTicketException("La tarea de soporte debe estar vinculada a un ticket");
+        if (!tablero.autorizarCreacionTarea(creador)) throw new UnauthorizedException(Tarea.MSG_DESAUTORIZADO_TAREA);
+        if (responsable != null && !tablero.autorizarAsignacionTarea(responsable)) throw new AssignationException(Tarea.MSG_RESPONSABLE_NO_VALIDO);
+        if (descripcion == "") throw new RequiredFieldException(Tarea.MSG_DESCRIPCION_OBLIGATORIO);
+        if (tipoTarea == null) throw new RequiredFieldException(Tarea.MSG_TIPO_TAREA_OBLIGATORIO);
+        if (tipoTarea == TipoTarea.SOPORTE && ticket == null) throw new UnasignedTicketException(Tarea.MSG_TICKET_SOPORTE_NO_ESPECIFICADO);
     }
 
     private Evento crearEventoCreacion() {
         Map<String, String> valores = new HashMap<String, String>();
-        valores.put("descripcion", this.descripcion);
-        valores.put("tipo de tarea", this.tipoTarea.toString());
-        valores.put("responsable", this.responsable.toString());
-        if (this.horasEstimadas != -1) valores.put("horas estimadas", String.valueOf(this.horasEstimadas));
-        if (this.horasTrabajadas != 0) valores.put("horas trabajadas", String.valueOf(this.horasTrabajadas));
-        if (this.prioridad != null) valores.put("prioridad", this.prioridad.toString());
-        if (this.fase != null) valores.put("fase", this.fase.toString());
+        valores.put(Tarea.DESCRIPCION_STR, this.descripcion);
+        valores.put(Tarea.TIPO_TAREA_STR, this.tipoTarea.toString());
+        valores.put(Tarea.RESPONSABLE_STR, this.responsable.toString());
+        if (this.horasEstimadas != -1) valores.put(Tarea.HORAS_ESTIMADAS_STR, String.valueOf(this.horasEstimadas));
+        if (this.horasTrabajadas != 0) valores.put(Tarea.HORAS_TRABAJADAS_STR, String.valueOf(this.horasTrabajadas));
+        if (this.prioridad != null) valores.put(Tarea.PRIORIDAD_STR, this.prioridad.toString());
+        if (this.iteracion != null) valores.put(Tarea.ITERACION_STR, this.iteracion.getDescripcion());
 
-        valores.put("estado", this.estado);
+        valores.put(Tarea.ESTADO_STR, this.estado);
 
         return new Evento(TipoEvento.NUEVO, valores, this.creador);
     }
@@ -108,23 +124,23 @@ public class Tarea {
         return historial;
     }
 
-    public Fase getFase() {
-        return fase;
+    public Iteracion getIteracion() {
+        return iteracion;
     }
 
-    public void setFase(Fase fase, Empleado autor) {
-        this.agregarEventoEdicion("fase", fase.toString(), autor);
-        this.fase = fase;
-        this.fase.addTarea(this);
+    public void setIteracion(Iteracion iteracion, Empleado autor) {
+        this.agregarEventoEdicion(Tarea.ITERACION_STR, iteracion.getDescripcion(), autor);
+        this.iteracion = iteracion;
+        this.iteracion.addTarea(this);
     }
 
     public void setDescripcion(String descripcion, Empleado autor) {
-        this.agregarEventoEdicion("descripcion", descripcion, autor);
+        this.agregarEventoEdicion(Tarea.DESCRIPCION_STR, descripcion, autor);
         this.descripcion = descripcion;
     }
 
     public void setEstado(String estado, Empleado autor) {
-        this.agregarEventoEdicion("estado", estado, autor);
+        this.agregarEventoEdicion(Tarea.ESTADO_STR, estado, autor);
         this.estado = estado;
     }
 

@@ -6,18 +6,14 @@ import utils.*;
 import java.util.*;
 
 public class Fase {
-    private Tablero tablero;
     private String descripcion;
     private Date fechaInicio;
     private Date fechaFin;
-    private List<Tarea> tareas;
+    private List<Iteracion> iteraciones;
 
-    public Fase(Tablero tablero, String descripcion, Date fechaInicio, Date fechaFin) {
-        this.tablero = tablero;
+    public Fase(String descripcion) {
         this.descripcion = descripcion;
-        this.fechaFin = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.tareas = new ArrayList<Tarea>();
+        this.iteraciones = new ArrayList<Iteracion>();
     }
     public String getDescripcion() {
         return descripcion;
@@ -27,41 +23,23 @@ public class Fase {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public List<Iteracion> getIteraciones(){
+        return this.iteraciones;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void addIteracion(Iteracion iteracion){
+        this.iteraciones.add(iteracion);
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
-    }
+    public List<Alerta> getAlertas(Tablero tablero){
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+        List<Alerta> alertas = new ArrayList<Alerta>();
 
-    public List<Tarea> getTareas(){
-        return this.tareas;
-    }
-
-    public void addTarea(Tarea tarea){
-        this.tareas.add(tarea);
-    }
-
-    public int getHorasPendientes(){
-        int horas = 0;
-        for (int i = 0; i < this.tareas.size(); i++) {
-            horas += this.tareas.get(i).getHorasPendientes();
+        for (int i = 0; i < this.iteraciones.size(); i++) {
+            alertas.addAll(this.iteraciones.get(i).getAlertas(tablero));
         }
 
-        return horas;
-    }
-
-    public List<Alerta> getAlertas(){
-        return this.tablero.getAlertasPorFase(this);
+        return alertas;
     }
 
     @Override
