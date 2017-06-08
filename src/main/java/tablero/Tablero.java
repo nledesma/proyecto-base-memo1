@@ -29,8 +29,8 @@ public class Tablero {
 
     public int getHorasDedicablesPorDia(){
         int horas = 0;
-        for (int i = 0; i < this.proyecto.miembros.size(); i++) {
-            horas += this.proyecto.miembros.get(i).getDedicacionHoraria();
+        for (int i = 0; i < this.proyecto.equipoAsignado.size(); i++) {
+            horas += this.proyecto.equipoAsignado.get(i).getDedicacionHoraria();
         }
 
         return horas;

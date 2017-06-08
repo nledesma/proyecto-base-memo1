@@ -2,6 +2,7 @@ package tablero;
 
 import excepciones.AssignationException;
 import excepciones.UnauthorizedException;
+import personas.Asignacion;
 import personas.Empleado;
 import utils.Alerta;
 import utils.Calendario;
@@ -30,12 +31,15 @@ public class FachadaTablero {
     }
 
     public void crearTablero(int horas){
-        this.empladoInteraccion = new Empleado("Juan", "Perez", horas);
-        this.lider = new Empleado("The", "Boss", horas);
-        this.noAutorizado = new Empleado("Un", "Authorized", horas);
+        this.empladoInteraccion = new Empleado("Juan", "Perez");
+        Asignacion asignacionEmpleado = new Asignacion(this.empladoInteraccion, new Date(), Calendario.getFechaMasNdiasHabiles(200), 300,horas);
+        this.lider = new Empleado("The", "Boss");
+        Asignacion asignacionlider = new Asignacion(this.lider, new Date(), Calendario.getFechaMasNdiasHabiles(200), 350,horas);
+        this.noAutorizado = new Empleado("Un", "Authorized");
         this.tareas = new ArrayList<Tarea>();
-        this.proyecto = new Proyecto(lider);
-        this.proyecto.addMiembro(empladoInteraccion);
+        this.proyecto = new Proyecto(asignacionlider);
+        this.proyecto.addMiembro(asignacionEmpleado);
+
         List<String> estadosPosibles = new ArrayList<String>();
         estadosPosibles.add("Pendiente");
         estadosPosibles.add("En Progreso");

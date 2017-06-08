@@ -1,38 +1,47 @@
 package tablero;
 
 
+import personas.Asignacion;
 import personas.Empleado;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Proyecto {
-    List<Empleado> miembros;
-    Empleado lider;
+    List<Asignacion> equipoAsignado;
+    Asignacion lider;
 
-    public Proyecto(Empleado lider) {
+    public Proyecto(Asignacion lider) {
         this.lider = lider;
-        this.miembros = new ArrayList<Empleado>();
-        this.miembros.add(lider);
+        this.equipoAsignado = new ArrayList<Asignacion>();
+        this.equipoAsignado.add(lider);
     }
 
     public boolean esMiembro(Empleado empleado){
-        return this.miembros.indexOf(empleado) != -1;
+        int encontrado = -1;
+
+        int i = 0;
+        while (i < this.equipoAsignado.size() && encontrado == -1) {
+            if (this.equipoAsignado.get(i).getEmpleado() == empleado)
+                encontrado = i;
+            i++;
+        }
+        return encontrado != -1;
     }
 
     public Empleado getLider() {
-        return lider;
+        return lider.getEmpleado();
     }
 
-    public void setLider(Empleado lider) {
+    public void setLider(Asignacion lider) {
         this.lider = lider;
     }
 
-    public List<Empleado> getMiembros() {
-        return miembros;
+    public List<Asignacion> getequipoAsignado() {
+        return equipoAsignado;
     }
 
-    public void addMiembro(Empleado empleado) {
-        this.miembros.add(empleado);
+    public void addMiembro(Asignacion asignacion) {
+        this.equipoAsignado.add(asignacion);
     }
 }
